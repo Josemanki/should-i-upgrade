@@ -1,6 +1,9 @@
 import { Table } from '@nextui-org/react';
+import PriceLabel from './PriceLabel';
+import { User } from '@nextui-org/react';
+import ShouldUpgrade from './ShouldUpgrade';
 
-const EssenceTable = ({ essencePairs }) => {
+const EssenceTable = ({ essenceRows }) => {
   const columns = [
     {
       key: 'essence_name',
@@ -27,13 +30,42 @@ const EssenceTable = ({ essencePairs }) => {
       label: 'Should Upgrade?',
     },
   ];
+
+  const sortedRows = essenceRows.sort(
+    (a, b) => b.gain_percent - a.gain_percent
+  );
+
+  const renderCell = (essence, columnKey) => {
+    const cellValue = essence[columnKey];
+    switch (columnKey) {
+      case 'essence_name':
+        return (
+          <User
+            name={essence.essence_name}
+            size="sm"
+            src={essence.essence_picture}
+          />
+        );
+      case 'shrieking_price':
+        return <PriceLabel chaosValue={essence.shrieking_price} />;
+      case 'deafening_price':
+        return <PriceLabel chaosValue={essence.deafening_price} />;
+      case 'chaos_diff':
+        return <PriceLabel chaosValue={essence.chaos_diff} />;
+      case 'should_upgrade':
+        return <ShouldUpgrade shouldUpgrade={essence.should_upgrade} />;
+
+      default:
+        return cellValue;
+    }
+  };
+
   return (
     <Table
       aria-label="Table with essences"
       css={{
         height: 'auto',
         minWidth: '100%',
-        mt: '48px',
       }}
     >
       <Table.Header columns={columns}>
@@ -41,16 +73,14 @@ const EssenceTable = ({ essencePairs }) => {
           <Table.Column key={column.key}>{column.label}</Table.Column>
         )}
       </Table.Header>
-      <Table.Body>
-        {essencePairs.map((essencePair, index) => {
-          return (
-            <Table.Row key={index}>
-              <Table.Cell>{essencePair[0].baseType}</Table.Cell>;
-              <Table.Cell>Tony Reichert</Table.Cell>;
-              <Table.Cell>Tony Reichert</Table.Cell>;
-            </Table.Row>
-          );
-        })}
+      <Table.Body items={sortedRows}>
+        {(item) => (
+          <Table.Row>
+            {(columnKey) => (
+              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+            )}
+          </Table.Row>
+        )}
       </Table.Body>
     </Table>
   );

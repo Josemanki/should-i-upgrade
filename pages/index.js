@@ -1,11 +1,9 @@
-const fs = require('fs');
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import { Container, Row, Col } from '@nextui-org/react';
+import { Container, Text } from '@nextui-org/react';
 import Header from '../components/Header';
 import EssenceTable from '../components/EssenceTable';
 
-export default function Home({ essencePairs }) {
+export default function Home({ essenceRows }) {
   return (
     <main>
       <Head>
@@ -18,22 +16,21 @@ export default function Home({ essencePairs }) {
       </Head>
       <Header />
       <Container>
-        <EssenceTable essencePairs={essencePairs} />
+        <Text css={{ mt: '32px' }}>
+          Let's figure out if you should upgrade your shrieking essences or
+          calculate the price as-is!
+        </Text>
+        <EssenceTable essenceRows={essenceRows} />
       </Container>
     </main>
   );
 }
 
 export async function getServerSideProps() {
-  // // Fetch data from external API
-  // const res = await fetch(
-  //   `https://poe.ninja/api/data/ItemOverview?league=Archnemesis&type=Essence&language=en`
-  // );
-  // const data = await res.json();
-
-  const data = JSON.parse(
-    fs.readFileSync('./mockData.json', { encoding: 'utf8' })
+  const res = await fetch(
+    `https://poe.ninja/api/data/ItemOverview?league=Archnemesis&type=Essence&language=en`
   );
+  const data = await res.json();
 
   const targetEssences = data.lines.filter(
     (essence) => essence.mapTier === 6 || essence.mapTier === 7
@@ -54,22 +51,26 @@ export async function getServerSideProps() {
     });
   });
 
-  const essenceColumns = essencePairs.map((essencePair, index) => {
+  const essenceRows = essencePairs.map((essencePair, index) => {
     const shrieking = essencePair[0];
     const deafening = essencePair[1];
+    const shriekingTripled = shrieking.chaosValue * 3;
+    const gain_percent = (
+      (deafening.chaosValue / shriekingTripled) *
+      100
+    ).toFixed(2);
     return {
-      key: `essence-${index}`,
+      key: `${index}`,
       essence_name: shrieking.baseType,
+      essence_picture: deafening.icon,
       shrieking_price: shrieking.chaosValue,
       deafening_price: deafening.chaosValue,
-      chaos_diff: deafening.chaosValue - shrieking.chaosValue * 3,
-      gain_percent: '',
-      should_upgrade: '',
+      chaos_diff: (deafening.chaosValue - shrieking.chaosValue * 3).toFixed(2),
+      gain_percent,
+      should_upgrade: gain_percent > 100 ? true : false,
     };
   });
 
-  console.log(essenceColumns);
-
   // Pass data to the page via props
-  return { props: { essencePairs, essenceColumns } };
+  return { props: { essenceRows } };
 }
