@@ -68,7 +68,7 @@ export async function getServerSideProps() {
       deafening_price: deafening.chaosValue,
       chaos_diff: (deafening.chaosValue - shrieking.chaosValue * 3).toFixed(2),
       gain_percent,
-      should_upgrade: gain_percent > 0 ? true : false,
+      should_upgrade: gain_percent >= 0 ? true : false,
     };
   });
 
