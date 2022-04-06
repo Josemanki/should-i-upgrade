@@ -17,8 +17,9 @@ export default function Home({ essenceRows }) {
       <Header />
       <Container>
         <Text css={{ mt: '32px' }}>
-          Let's figure out if you should upgrade your shrieking essences or
-          calculate the price as-is!
+          {
+            "Let's figure out if you should upgrade your shrieking essences or calculate the price as-is!"
+          }
         </Text>
         <EssenceTable essenceRows={essenceRows} />
       </Container>
