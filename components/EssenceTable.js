@@ -1,6 +1,5 @@
-import { Table } from '@nextui-org/react';
+import { Table, User, Text } from '@nextui-org/react';
 import PriceLabel from './PriceLabel';
-import { User } from '@nextui-org/react';
 import ShouldUpgrade from './ShouldUpgrade';
 
 const EssenceTable = ({ essenceRows }) => {
@@ -23,7 +22,7 @@ const EssenceTable = ({ essenceRows }) => {
     },
     {
       key: 'gain_percent',
-      label: 'Gain %',
+      label: 'Profitability',
     },
     {
       key: 'should_upgrade',
@@ -52,6 +51,10 @@ const EssenceTable = ({ essenceRows }) => {
         return <PriceLabel chaosValue={essence.deafening_price} />;
       case 'chaos_diff':
         return <PriceLabel chaosValue={essence.chaos_diff} />;
+      case 'gain_percent':
+        return (
+          <Text css={{ dflex: 'center' }}>{`${essence.gain_percent}%`}</Text>
+        );
       case 'should_upgrade':
         return <ShouldUpgrade shouldUpgrade={essence.should_upgrade} />;
 
@@ -70,7 +73,9 @@ const EssenceTable = ({ essenceRows }) => {
     >
       <Table.Header columns={columns}>
         {(column) => (
-          <Table.Column key={column.key}>{column.label}</Table.Column>
+          <Table.Column align="center" key={column.key}>
+            {column.label}
+          </Table.Column>
         )}
       </Table.Header>
       <Table.Body items={sortedRows}>

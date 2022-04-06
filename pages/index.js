@@ -57,7 +57,7 @@ export async function getServerSideProps() {
     const deafening = essencePair[1];
     const shriekingTripled = shrieking.chaosValue * 3;
     const gain_percent = (
-      (deafening.chaosValue / shriekingTripled) *
+      (deafening.chaosValue / shriekingTripled) * 100 -
       100
     ).toFixed(2);
     return {
@@ -68,7 +68,7 @@ export async function getServerSideProps() {
       deafening_price: deafening.chaosValue,
       chaos_diff: (deafening.chaosValue - shrieking.chaosValue * 3).toFixed(2),
       gain_percent,
-      should_upgrade: gain_percent > 100 ? true : false,
+      should_upgrade: gain_percent > 0 ? true : false,
     };
   });
 
