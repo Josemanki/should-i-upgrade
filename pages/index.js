@@ -29,7 +29,7 @@ export default function Home({ essenceRows }) {
 
 export async function getServerSideProps() {
   const res = await fetch(
-    `https://poe.ninja/api/data/ItemOverview?league=Archnemesis&type=Essence&language=en`
+    `https://poe.ninja/api/data/ItemOverview?league=Sentinel&type=Essence&language=en`
   );
   const data = await res.json();
 
