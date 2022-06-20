@@ -69,6 +69,8 @@ const EssenceTable = ({ essenceRows }) => {
       css={{
         height: 'auto',
         minWidth: '100%',
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
     >
       <Table.Header columns={columns}>

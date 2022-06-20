@@ -1,9 +1,14 @@
 import Head from 'next/head';
-import { Container, Text } from '@nextui-org/react';
+import { Container, Text, styled } from '@nextui-org/react';
 import Header from '../components/Header';
 import EssenceTable from '../components/EssenceTable';
+import RegexField from '../components/RegexField';
 
-export default function Home({ essenceRows }) {
+export default function Home({ essenceRows, essenceRegex }) {
+  const TextContainer = styled('div', {
+    margin: '16px 0',
+  });
+
   return (
     <main>
       <Head>
@@ -16,11 +21,17 @@ export default function Home({ essenceRows }) {
       </Head>
       <Header />
       <Container>
-        <Text css={{ mt: '32px' }}>
-          {
-            "Let's figure out if you should upgrade your shrieking essences or calculate the price as-is!"
-          }
-        </Text>
+        <TextContainer>
+          <Text>
+            Let's figure out if you should upgrade your shrieking essences or
+            calculate the price as-is!
+          </Text>
+          <Text b>
+            You are also able to copy this regex below to easily check your
+            stash for which ones to upgrade!
+          </Text>
+        </TextContainer>
+        <RegexField essenceRegex={essenceRegex} />
         <EssenceTable essenceRows={essenceRows} />
       </Container>
     </main>
@@ -28,6 +39,31 @@ export default function Home({ essenceRows }) {
 }
 
 export async function getServerSideProps() {
+  // of (L|Sor|Sp|Ra|En|Sc|Z|Gr|Ange|Con|Wo|H|Wr|Dr|Fe|Angu|Do|Mi|T|Su)
+
+  const regexEntries = {
+    'Essence of Loathing': 'L',
+    'Essence of Sorrow': 'Sor',
+    'Essence of Spite': 'Sp',
+    'Essence of Rage': 'Ra',
+    'Essence of Envy': 'En',
+    'Essence of Scorn': 'Sc',
+    'Essence of Zeal': 'Z',
+    'Essence of Greed': 'Gr',
+    'Essence of Anger': 'Ange',
+    'Essence of Contempt': 'Con',
+    'Essence of Woe': 'Wo',
+    'Essence of Hatred': 'H',
+    'Essence of Wrath': 'Wr',
+    'Essence of Dread': 'Dr',
+    'Essence of Fear': 'Fe',
+    'Essence of Anguish': 'Angu',
+    'Essence of Doubt': 'Do',
+    'Essence of Misery': 'Mi',
+    'Essence of Torment': 'T',
+    'Essence of Suffering': 'Su',
+  };
+
   const res = await fetch(
     `https://poe.ninja/api/data/ItemOverview?league=Sentinel&type=Essence&language=en`
   );
@@ -69,9 +105,24 @@ export async function getServerSideProps() {
       chaos_diff: (deafening.chaosValue - shrieking.chaosValue * 3).toFixed(2),
       gain_percent,
       should_upgrade: gain_percent >= 0 ? true : false,
+      regex: regexEntries[shrieking.baseType],
     };
   });
 
+  const profitableEssences = essenceRows.filter(
+    (essenceRow) => essenceRow.gain_percent >= 0
+  );
+
+  let essenceRegex = '';
+
+  profitableEssences.forEach((essence, index) => {
+    essenceRegex +=
+      index === profitableEssences.length - 1
+        ? `${essence.regex}`
+        : `${essence.regex}|`;
+  });
+
   // Pass data to the page via props
-  return { props: { essenceRows } };
+  console.log(essenceRegex);
+  return { props: { essenceRows, essenceRegex } };
 }
