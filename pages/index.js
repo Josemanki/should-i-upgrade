@@ -23,8 +23,8 @@ export default function Home({ essenceRows, essenceRegex }) {
       <Container>
         <TextContainer>
           <Text>
-            Let's figure out if you should upgrade your shrieking essences or
-            calculate the price as-is!
+            Let&apos;s figure out if you should upgrade your shrieking essences
+            or calculate the price as-is!
           </Text>
           <Text b>
             You are also able to copy this regex below to easily check your
