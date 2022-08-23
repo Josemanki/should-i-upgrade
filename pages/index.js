@@ -22,13 +22,9 @@ export default function Home({ essenceRows, essenceRegex }) {
       <Header />
       <Container>
         <TextContainer>
-          <Text>
-            Let&apos;s figure out if you should upgrade your shrieking essences
-            or calculate the price as-is!
-          </Text>
+          <Text>Let&apos;s figure out if you should upgrade your shrieking essences or calculate the price as-is!</Text>
           <Text b>
-            You are also able to copy this regex below to easily check your
-            stash for which ones to upgrade!
+            You are also able to copy this regex below to easily check your stash for which ones to upgrade!
           </Text>
         </TextContainer>
         <RegexField essenceRegex={essenceRegex} />
@@ -64,25 +60,17 @@ export async function getServerSideProps() {
     'Essence of Suffering': 'Su',
   };
 
-  const res = await fetch(
-    `https://poe.ninja/api/data/ItemOverview?league=Sentinel&type=Essence&language=en`
-  );
+  const res = await fetch(`https://poe.ninja/api/data/ItemOverview?league=Kalandra&type=Essence&language=en`);
   const data = await res.json();
 
-  const targetEssences = data.lines.filter(
-    (essence) => essence.mapTier === 6 || essence.mapTier === 7
-  );
+  const targetEssences = data.lines.filter((essence) => essence.mapTier === 6 || essence.mapTier === 7);
 
-  const essenceBasetypeSet = new Set(
-    targetEssences.map((item) => item.baseType)
-  );
+  const essenceBasetypeSet = new Set(targetEssences.map((item) => item.baseType));
 
   const essenceBasetypes = [...essenceBasetypeSet];
 
   const essencePairs = essenceBasetypes.map((baseType) => {
-    const foundPairs = targetEssences.filter(
-      (essence) => essence.baseType === baseType
-    );
+    const foundPairs = targetEssences.filter((essence) => essence.baseType === baseType);
     return foundPairs.sort((a, b) => {
       return a.mapTier - b.mapTier;
     });
@@ -92,10 +80,7 @@ export async function getServerSideProps() {
     const shrieking = essencePair[0];
     const deafening = essencePair[1];
     const shriekingTripled = shrieking.chaosValue * 3;
-    const gain_percent = (
-      (deafening.chaosValue / shriekingTripled) * 100 -
-      100
-    ).toFixed(2);
+    const gain_percent = ((deafening.chaosValue / shriekingTripled) * 100 - 100).toFixed(2);
     return {
       key: `${index}`,
       essence_name: shrieking.baseType,
@@ -109,17 +94,12 @@ export async function getServerSideProps() {
     };
   });
 
-  const profitableEssences = essenceRows.filter(
-    (essenceRow) => essenceRow.gain_percent >= 0
-  );
+  const profitableEssences = essenceRows.filter((essenceRow) => essenceRow.gain_percent >= 0);
 
   let essenceRegex = '';
 
   profitableEssences.forEach((essence, index) => {
-    essenceRegex +=
-      index === profitableEssences.length - 1
-        ? `${essence.regex}`
-        : `${essence.regex}|`;
+    essenceRegex += index === profitableEssences.length - 1 ? `${essence.regex}` : `${essence.regex}|`;
   });
 
   // Pass data to the page via props
