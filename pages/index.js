@@ -60,7 +60,7 @@ export async function getServerSideProps() {
     'Essence of Suffering': 'Su',
   };
 
-  const res = await fetch(`https://poe.ninja/api/data/ItemOverview?league=Kalandra&type=Essence&language=en`);
+  const res = await fetch(`https://poe.ninja/api/data/ItemOverview?league=Sanctum&type=Essence&language=en`);
   const data = await res.json();
 
   const targetEssences = data.lines.filter((essence) => essence.mapTier === 6 || essence.mapTier === 7);
