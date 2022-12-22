@@ -62,7 +62,6 @@ export default function Scarabs({ scarabPairs }) {
             onAction={(tier) => setUpgradeTier(tier)}
           >
             {(item) => {
-              console.log(item);
               return <Dropdown.Item key={item.key}>{item.name}</Dropdown.Item>;
             }}
           </Dropdown.Menu>

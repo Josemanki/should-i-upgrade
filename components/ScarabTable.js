@@ -137,7 +137,6 @@ const ScarabTable = ({ scarabRows, upgradeTier }) => {
         paddingRight: 0,
       }}
     >
-      {console.log(upgradeTier)}
       <Table.Header columns={columns}>
         {(column) => (
           <Table.Column align="center" key={column.key}>
@@ -156,8 +155,6 @@ const ScarabTable = ({ scarabRows, upgradeTier }) => {
       </Table.Body>
     </Table>
   );
-
-  console.log(upgradeTier);
 };
 
 export default ScarabTable;

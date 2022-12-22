@@ -42,10 +42,10 @@ export default function Home() {
                 src={'./assets/essences.png'}
                 width="100%"
                 height={140}
-                alt={'Scarabs'}
+                alt={'Essences'}
               />
               <Card.Footer css={{ display: 'flex', justifyContent: 'center' }}>
-                <Text b>Scarabs</Text>
+                <Text b>Essences</Text>
               </Card.Footer>
             </Card>
           </Link>

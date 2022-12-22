@@ -8,7 +8,6 @@ const RegexField = ({ essenceRegex }) => {
   };
 
   const onButtonClick = (e) => {
-    console.log(regexInputRef.current.value);
     navigator.clipboard.writeText(regexInputRef.current.value);
   };
 

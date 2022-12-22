@@ -123,6 +123,5 @@ export async function getServerSideProps() {
   });
 
   // Pass data to the page via props
-  console.log(essenceRegex);
   return { props: { essenceRows, essenceRegex } };
 }
