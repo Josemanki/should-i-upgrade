@@ -65,7 +65,7 @@ export async function getServerSideProps() {
   };
 
   const res = await fetch(
-    `https://poe.ninja/api/data/ItemOverview?league=Sanctum&type=Essence&language=en`
+    `https://poe.ninja/api/data/itemoverview?league=Crucible&type=Essence&language=en`
   );
   const data = await res.json();
 

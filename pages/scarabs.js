@@ -108,7 +108,7 @@ export async function getServerSideProps() {
   };
 
   const res = await fetch(
-    `https://poe.ninja/api/data/ItemOverview?league=Sanctum&type=Scarab&language=en`
+    `https://poe.ninja/api/data/itemoverview?league=Crucible&type=Scarab&language=en`
   );
   const data = await res.json();
 
@@ -116,7 +116,6 @@ export async function getServerSideProps() {
     rusted: data.lines.filter((item) => item.name.startsWith('Rusted')),
     polished: data.lines.filter((item) => item.name.startsWith('Polished')),
     gilded: data.lines.filter((item) => item.name.startsWith('Gilded')),
-    winged: data.lines.filter((item) => item.name.startsWith('Winged')),
   };
 
   const scarabPairs = {
@@ -129,11 +128,6 @@ export async function getServerSideProps() {
       targetScarabs,
       targetScarabs.polished,
       targetScarabs.gilded
-    ),
-    gildedToWinged: getScarabPair(
-      targetScarabs,
-      targetScarabs.gilded,
-      targetScarabs.winged
     ),
   };
   return { props: { targetScarabs, scarabPairs } };

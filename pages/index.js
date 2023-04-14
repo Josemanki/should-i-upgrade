@@ -1,8 +1,7 @@
+import { Card, Container, styled, Text } from '@nextui-org/react';
 import Head from 'next/head';
-import { Container, Text, styled, Card } from '@nextui-org/react';
-import Header from '../components/Header';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Header from '../components/Header';
 
 export default function Home() {
   const CardContainer = styled('div', {
