@@ -18,10 +18,6 @@ export default function Scarabs({ scarabPairs }) {
       name: 'Polished to Gilded',
       key: 'polishedToGilded',
     },
-    {
-      name: 'Gilded to Winged',
-      key: 'gildedToWinged',
-    },
   ];
 
   const keyToNameMap = {
