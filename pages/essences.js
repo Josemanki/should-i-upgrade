@@ -42,26 +42,26 @@ export async function getServerSideProps() {
   // of (L|Sor|Sp|Ra|En|Sc|Z|Gr|Ange|Con|Wo|H|Wr|Dr|Fe|Angu|Do|Mi|T|Su)
 
   const regexEntries = {
-    'Essence of Loathing': 'L',
-    'Essence of Sorrow': 'Sor',
-    'Essence of Spite': 'Sp',
-    'Essence of Rage': 'Ra',
-    'Essence of Envy': 'En',
-    'Essence of Scorn': 'Sc',
-    'Essence of Zeal': 'Z',
-    'Essence of Greed': 'Gr',
-    'Essence of Anger': 'Ange',
-    'Essence of Contempt': 'Con',
-    'Essence of Woe': 'Wo',
-    'Essence of Hatred': 'H',
-    'Essence of Wrath': 'Wr',
-    'Essence of Dread': 'Dr',
-    'Essence of Fear': 'Fe',
-    'Essence of Anguish': 'Angu',
-    'Essence of Doubt': 'Do',
-    'Essence of Misery': 'Mi',
-    'Essence of Torment': 'T',
-    'Essence of Suffering': 'Su',
+    'Shrieking Essence of Loathing': 'L',
+    'Shrieking Essence of Sorrow': 'Sor',
+    'Shrieking Essence of Spite': 'Sp',
+    'Shrieking Essence of Rage': 'Ra',
+    'Shrieking Essence of Envy': 'En',
+    'Shrieking Essence of Scorn': 'Sc',
+    'Shrieking Essence of Zeal': 'Z',
+    'Shrieking Essence of Greed': 'Gr',
+    'Shrieking Essence of Anger': 'Ange',
+    'Shrieking Essence of Contempt': 'Con',
+    'Shrieking Essence of Woe': 'Wo',
+    'Shrieking Essence of Hatred': 'H',
+    'Shrieking Essence of Wrath': 'Wr',
+    'Shrieking Essence of Dread': 'Dr',
+    'Shrieking Essence of Fear': 'Fe',
+    'Shrieking Essence of Anguish': 'Angu',
+    'Shrieking Essence of Doubt': 'Do',
+    'Shrieking Essence of Misery': 'Mi',
+    'Shrieking Essence of Torment': 'T',
+    'Shrieking Essence of Suffering': 'Su',
   };
 
   const res = await fetch(
@@ -74,14 +74,16 @@ export async function getServerSideProps() {
   );
 
   const essenceBasetypeSet = new Set(
-    targetEssences.map((item) => item.baseType)
+    targetEssences.map((item) =>
+      item.baseType.substr(item.baseType.indexOf(' ') + 1)
+    )
   );
 
   const essenceBasetypes = [...essenceBasetypeSet];
 
   const essencePairs = essenceBasetypes.map((baseType) => {
-    const foundPairs = targetEssences.filter(
-      (essence) => essence.baseType === baseType
+    const foundPairs = targetEssences.filter((essence) =>
+      essence.baseType.includes(baseType)
     );
     return foundPairs.sort((a, b) => {
       return a.mapTier - b.mapTier;
