@@ -104,7 +104,7 @@ export async function getServerSideProps() {
   };
 
   const res = await fetch(
-    `https://poe.ninja/api/data/itemoverview?league=Ancestor&type=Scarab&language=en`
+    `https://poe.ninja/api/data/itemoverview?league=Affliction&type=Scarab&language=en`
   );
   const data = await res.json();
 
