@@ -65,7 +65,7 @@ export async function getServerSideProps() {
   };
 
   const res = await fetch(
-    `https://poe.ninja/api/data/itemoverview?league=Affliction&type=Essence&language=en`
+    `https://poe.ninja/api/data/itemoverview?league=Necropolis&type=Essence&language=en`
   );
   const data = await res.json();
 
