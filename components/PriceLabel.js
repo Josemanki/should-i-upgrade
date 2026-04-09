@@ -7,7 +7,7 @@ const PriceLabel = ({ chaosValue }) => {
 
   return (
     <StyledPriceLabel css={{ dflex: 'center' }}>
-      <Text size={16}>{chaosValue}</Text>
+      <Text size={16}>{Number(chaosValue).toFixed(2)}</Text>
       <img src="./assets/chaos-orb.png" alt="Chaos orb" width={20} />
     </StyledPriceLabel>
   );
